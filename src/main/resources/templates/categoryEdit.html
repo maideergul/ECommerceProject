@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/admin_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Category Edit</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div layout:fragment="content" class="container">
+		<br>
+		<div class="row">
+			<div class="col-sm-5" th:if="${update == null}">
+				<h3>Add Category</h3>
+				<form action="/addCategory" method="post">
+					<div class="form-group">
+						<input name="categoryname" placeholder="Name" type="text"
+							class="form-control">
+					</div>
+					<button class="btn btn-success">Save</button>
+				</form>
+			</div>
+
+			<div class="col-sm-5" th:if="${update != null}">
+				<h3 style="color: green">Category Update</h3>
+				<form action="/addCategory" method="post">
+					<div class="form-group">
+						<input readonly="readonly" th:value="${update.cid}" name="cid"
+							type="text" class="form-control">
+					</div>
+					<div class="form-group">
+						<input th:value="${update.categoryname}" name="categoryname"
+							placeholder="Name" type="text" class="form-control">
+					</div>
+					<br>
+					<button class="btn btn-success">Update</button>
+				</form>
+			</div>
+		</div>
+		<br>
+
+		<div class="col-sm-12">
+			<hr class="solid">
+			<h3 style="color: maroon">Category List</h3>
+
+			<form action="/searchCategory" method="post" class="form-row">
+				<div class="form-group col-md-10">
+					<input type="search" th:value="${searchTxt}" name="searchTxt"
+						class="form-control" placeholder="Search...">
+				</div>
+				<div class="form-group col-md-2">
+					<button type="submit" class="btn btn-dark">Search</button>
+				</div>
+			</form>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">Cid</th>
+						<th scope="col">Category Name</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${categoryList !=null}"
+						th:each="item,iter : ${categoryList}">
+						<th th:text="${item.cid}"></th>
+						<td th:text="${item.categoryname}"></td>
+						<td><a th:href="@{'/updateCategory/' + ${item.cid}}"
+							class="btn btn-primary btn-sm btn-block ">Update</a> <a
+							onclick="return user_alert()"
+							th:href="@{'/deleteCategory/' + ${item.cid}}"
+							class="btn btn-danger btn-sm btn-block "> Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/admin_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Product Edit</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div layout:fragment="content" class="container">
+		<br>
+		<div class="row">
+			<div class="col-sm-5" th:if="${update == null}">
+				<h3>Add Product</h3>
+				<form action="/addProduct" method="post">
+					<div class="form-group">
+						<input name="title" placeholder="Title" type="text"
+							class="form-control">
+					</div>
+					<div class="input-group">
+						<input name="price" placeholder="Price" type="text"
+							aria-label="Dollar amount (with dot and two decimal places)"
+							class="form-control">
+						<div class="input-group-prepend">
+							<span class="input-group-text">₺</span>
+						</div>
+					</div>
+					<br>
+					<div class="form-group">
+						<input name="detail" placeholder="Detail" type="text"
+							class="form-control">
+					</div>
+					<div class="mb-3">
+						<select name="cid" class="form-select"
+							aria-label="Default select example">
+							<option selected>Select a category</option>
+							<option th:if="${categoryList !=null}" th:each="item,iter : ${categoryList}"
+								th:text="${item.categoryname}" th:value="${item.cid}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input name="img" placeholder="Image URL" type="text"
+							class="form-control">
+					</div>
+					<button class="btn btn-success">Save</button>
+				</form>
+			</div>
+
+			<div class="col-sm-5" th:if="${update != null}">
+				<h3 style="color: green">Product Update</h3>
+				<form action="/addProduct" method="post">
+					<div class="form-group">
+						<input readonly="readonly" th:value="${update.pid}" name="pid"
+							type="text" class="form-control">
+					</div>
+					<div class="form-group">
+						<input th:value="${update.title}" name="title" placeholder="Title"
+							type="text" class="form-control">
+					</div>
+					<div class="input-group">
+						<input th:value="${update.price}" name="price" placeholder="Price"
+							type="text" class="form-control"
+							aria-label="Dollar amount (with dot and two decimal places)">
+						<div class="input-group-prepend">
+							<span class="input-group-text">₺</span>
+						</div>
+					</div>
+					<br>
+					<div class="form-group">
+						<input th:value="${update.detail}" name="detail"
+							placeholder="Detail" type="text" class="form-control">
+					</div>
+					<div class="mb-3">
+						<select name="cid" class="form-select"
+							aria-label="Default select example">
+							<option selected>Select a category</option>
+							<option th:if="${categoryList !=null}" th:each="item,iter : ${categoryList}"
+								th:text="${item.categoryname}" th:value="${item.cid}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input th:value="${update.img}" name="img" placeholder="Image"
+							type="text" class="form-control">
+					</div>
+					<button class="btn btn-success">Update</button>
+				</form>
+			</div>
+		</div>
+		<br>
+		
+		<div class="col-sm-12">
+			<hr class="solid">
+			<h3 style="color: maroon">Product List</h3>
+
+			<form action="/searchData" method="post" class="form-row">
+				<div class="form-group col-md-10">
+					<input type="search" th:value="${searchTxt}" name="searchTxt"
+						class="form-control" placeholder="Search...">
+				</div>
+				<div class="form-group col-md-2">
+					<button type="submit" class="btn btn-dark">Search</button>
+				</div>
+			</form>
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">Pid</th>
+						<th scope="col">Title</th>
+						<th scope="col">Price</th>
+						<th scope="col">Detail</th>
+						<th scope="col">Category</th>
+						<th scope="col">Image</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${pcvlist !=null}" th:each="item,iter : ${pcvlist}">
+						<th th:text="${item.pid}"></th>
+						<td th:text="${item.title}"></td>
+						<td th:text="${item.price+'₺'}"></td>
+						<td th:text="${item.detail}"></td>
+						<td th:text="${item.categoryname}"></td>
+						<td class="w-25"><img alt="Product image"
+							th:src="${item.img}" width="100" height="90"></td>
+
+						<td><a th:href="@{'/updateProduct/' + ${item.pid}}"
+							class="btn btn-primary btn-sm btn-block ">Update</a> <a
+							onclick="return user_alert()"
+							th:href="@{'/deleteProduct/' + ${item.pid}}"
+							class="btn btn-danger btn-sm btn-block "> Delete</a></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

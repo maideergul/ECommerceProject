@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/shop_layout}">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+
+<body>
+
+	<div layout:fragment="content" class="container">
+	
+		<!-- Breadcrumb Start -->
+		<div class="breadcrumb-wrap">
+			<div class="container-fluid">
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/index">Home</a></li>
+					<li class="breadcrumb-item"><a href="/product">Products</a></li>
+					<li class="breadcrumb-item active">Cart</li>
+				</ul>
+			</div>
+		</div>
+		<!-- Breadcrumb End -->
+
+		<!-- Cart Start -->
+		<div class="cart-page">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-8">
+						<div class="cart-page-inner">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead class="thead-dark">
+										<tr>
+											<th>Product</th>
+											<th>Price</th>
+											<th>Quantity</th>
+											<th>Total</th>
+											<th>Remove</th>
+										</tr>
+									</thead>
+									
+									<tbody class="align-middle">
+										<tr th:if="${productList !=null}" th:each="item,iter : ${productList}">
+											<td>
+												<div class="img">
+													<a href="#"><img th:src="${item.img}" alt="Image"
+														class="col-xs-24 col-sm-12 col-md-12" width=100
+														height="280"></a>
+													<p th:text="${item.title}"></p>
+												</div>
+											</td>
+											<td th:text="${item.price + '₺'}"></td>
+											<td>
+												<div class="qty">
+													<a class="btn-primary btn-sm fas fa-plus"
+														th:href="@{'/quantityIncrease/' + ${item.pid}}"
+														role="button"></a> <input type="text"
+														th:value="${item.quantity}"> <a
+														class="btn-primary btn-sm fas fa-minus"
+														th:href="@{'/quantityDecrease/' + ${item.pid}}"
+														role="button"></a>
+												</div>
+											</td>
+											<td th:text="${totalByProduct.get(iter.index) + '₺'}"></td>
+											<td><a th:href="@{'/cartremove/' + ${item.pid}}"
+												class="btn btn-primary btn-outline btn-md">Remove</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-lg-4">
+						<div class="cart-page-inner">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="coupon">
+										<input type="text" placeholder="Coupon Code">
+										<button>Apply Code</button>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="cart-summary">
+										<div class="cart-content">
+											<p>
+												Sub Total : <span th:text="${totalAmount + '₺'}"></span>
+											</p>
+											<p>
+												Shipping Cost : <span>$0</span>
+											</p>
+											<h2>
+												Grand Total : <span th:text="${totalAmount + '₺'}"></span>
+											</h2>
+										</div>
+										<a th:href="@{'/checkout'}"
+											class="btn-primary btn-lg icon-shopping-cart">Checkout</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Cart End -->
+	</div>
+
+</body>
+</html>
