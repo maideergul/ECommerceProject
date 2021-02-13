@@ -1,2 +1,3 @@
 # ECommerceProject
- Java E-Commerce Project
+ 
+ Online shopping site
