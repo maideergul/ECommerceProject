@@ -1,3 +1,3 @@
-# ECommerceProject
+# ECommerceSpringProject
  
  Online shopping site
